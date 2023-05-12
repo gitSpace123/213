@@ -107,6 +107,7 @@ $(document).ready(function () {
   $("#btnBegin").click(function () {
     // Устанавливаем переменные в начальное состояние
     $round = 0;
+    $countTrack = 0;
     $inGame = true;
     $SelfCure = false;
     $idImmortal =
@@ -221,6 +222,8 @@ $(document).ready(function () {
     // Убираем информацию об убитых
     $("span").removeClass($classDie);
     $("span").removeClass($classMaff);
+
+    resetSound();
   });
 
   // Добавляем игрока
@@ -363,11 +366,16 @@ function countMaff() {
 
 // Очередной раунд
 function RoundAdd(State) {
+  resetSound();
   StopTimer();
+
   if (1 == State) {
     // Сейчас ночь
+    $countTrack++;
+    soundClick("night", $countTrack);
     RoundEnd(3 - State); // 3-1=2 - нам надо закончить день прежде, чем начинать ночь
     $round++;
+
     $("#btnNight").attr("disabled", "disabled");
     $("#btnDay").attr("disabled", "");
     ee = '<span class="' + $classHeader + '">Н' + $round + "</span>";
@@ -528,6 +536,7 @@ function RoundAdd(State) {
       });
   } else {
     // Сейчас день
+    soundClick("day", $countTrack);
     RoundEnd(3 - State); // 3-2=1 - нам надо закончить ночь прежде, чем начинать день
     $("#btnNight").attr("disabled", "");
     $("#btnDay").attr("disabled", "disabled");
@@ -588,6 +597,10 @@ function RoundAdd(State) {
                 '"/>';
           }
           ee = ee + "</span>";
+        }
+
+        if ($countTrack > 8) {
+          $countTrack = 0;
         }
       });
   }
@@ -916,4 +929,18 @@ function showDebugInfo() {
       "=" +
       $("#sRole" + $bcure).html()
   );
+}
+
+function soundClick(type, num) {
+  let audio = document.getElementById("audio");
+  audio.src = "music/" + type + "/" + num + ".mp3";
+  audio.autoplay = true;
+}
+
+function resetSound() {
+  let audio = document.getElementById("audio");
+  audio.src = "";
+  audio.autoplay = false;
+  audio.currentTime = 0;
+  audio.pause();
 }
