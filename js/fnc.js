@@ -949,3 +949,15 @@ function resetSound() {
   audio.volume = 1;
   audio.pause();
 }
+
+function samplesSound(type) {
+  if (type < 3) {
+    format = ".mp3";
+  } else {
+    format = ".ogg";
+  }
+
+  var audio = new Audio(); // Создаём новый элемент Audio
+  audio.src = "music/samples/" + type + format;
+  audio.autoplay = true;
+}

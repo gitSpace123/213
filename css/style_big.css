@@ -145,6 +145,7 @@ body {
   background: #fce4d6;
 }
 #cover {
+  width: 100%;
   clear: both;
 }
 #dGameBtns {
@@ -225,4 +226,15 @@ span {
   height: 36px;
   border-bottom: 1px solid #000;
   font-size: 24px;
+}
+
+#tab1 {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.samples button {
+  height: 38px;
+  width: 75px;
+  margin-left: 10px;
 }
