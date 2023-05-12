@@ -46,7 +46,7 @@ $(document).ready(function () {
   $arBtnTitles[1] = "X"; // для убийства
   $arBtnTitles[2] = "В"; // для Медвежатника
   $arBtnTitles[3] = "✚"; // для лечения
-  $arBtnTitles[4] = "✍"; // для проверки Детективом
+  $arBtnTitles[4] = "&#128269;"; // для проверки Детективом
   $arBtnTitles[5] = "❤"; // для спасения красоткой
   $arBtnTitles[6] = "М"; // для обработки маньяком
   $arBtnTitles[7] = "✕"; // для убийства днём
