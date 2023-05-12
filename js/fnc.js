@@ -935,6 +935,10 @@ function soundClick(type, num) {
   let audio = document.getElementById("audio");
   audio.src = "music/" + type + "/" + num + ".mp3";
   audio.autoplay = true;
+
+  if (type == "day") {
+    audio.volume = 0.2;
+  }
 }
 
 function resetSound() {
@@ -942,5 +946,6 @@ function resetSound() {
   audio.src = "";
   audio.autoplay = false;
   audio.currentTime = 0;
+  audio.volume = 1;
   audio.pause();
 }
