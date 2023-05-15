@@ -54,12 +54,12 @@ $(document).ready(function () {
     $arSpread.push($arRoles[5]);
     // Добавляем Красотку
     if (7 <= $gamers) $arSpread.push($arRoles[6]);
-    // Добавляем Бессмертного и Дона
+    // Добавляем Подкидыша и Дона
     if (8 <= $gamers) {
       $arSpread.push($arRoles[8]);
       $arSpread.push($arRoles[3]);
     }
-    // Добавляем Маньяка
+    // Добавляем Адвоката
     if (9 <= $gamers) $arSpread.push($arRoles[7]);
     // Добавляем Медвежатника
     if (11 <= $gamers) $arSpread.push($arRoles[9]);
@@ -162,7 +162,7 @@ $(document).ready(function () {
         if ($arRoles[5] == role) $idMedic = arr[1];
         // Запоминаем роль красотки
         if ($arRoles[6] == role) $idBeauty = arr[1];
-        // Запоминаем роль маньяка
+        // Запоминаем роль Адвоката
         if ($arRoles[7] == role) $idManiac = arr[1];
         // Запоминаем роль бессмертного
         if ($arRoles[8] == role) $idImmortal = arr[1];
@@ -507,9 +507,9 @@ function RoundAdd(State) {
                 $arBtnTitles[5] +
                 '"/>';
           }
-          // Если у нас есть в игре маньяк, то делаем кнопку с его действием
+          // Если у нас есть в игре Адвокат, то делаем кнопку с его действием
           if (0 != $idManiac) {
-            // Если сам не маньяк и не умер и маньяк ещё живой...
+            // Если сам не Адвокат и не умер и Адвокат ещё живой...
             if (
               $arRoles[7] != $("#sRole" + $i).html() &&
               !$("#sRole" + $i).hasClass($classDie) &&
@@ -683,7 +683,7 @@ function RoundEnd(State) {
       }
       // Проверяем, был ли кто из погибших доктором, и запоминаем, если да
       if ($idMedic == $die || $idMedic == $bdie) $idMedic = -$idMedic;
-      // Проверяем, был ли кто из погибших маньяком, и запоминаем, если да
+      // Проверяем, был ли кто из погибших Адвокатом, и запоминаем, если да
       if ($idManiac == $die || $idManiac == $bdie) $idManiac = -$idManiac;
       // Проверяем, был ли кто из погибших детективом, и запоминаем, если да
       if ($idDetective == $die || $idDetective == $bdie)
@@ -758,7 +758,7 @@ function RoundEnd(State) {
       if ($idBeauty == $die || $idBeauty == $boom) $idBeauty = -$idBeauty;
       // Проверяем, был ли погибший доктором, и запоминаем, если да
       if ($idMedic == $die || $idMedic == $boom) $idMedic = -$idMedic;
-      // Проверяем, был ли погибший маньяком, и запоминаем, если да
+      // Проверяем, был ли погибший Адвокатом, и запоминаем, если да
       if ($idManiac == $die || $idManiac == $boom) $idManiac = -$idManiac;
       // Проверяем, был ли погибший детективом, и запоминаем, если да
       if ($idDetective == $die || $idDetective == $boom)
@@ -883,7 +883,7 @@ function showDebugInfo() {
       "Детектив=" +
       $idDetective +
       $br +
-      "Маньяк=" +
+      "Адвокат=" +
       $idManiac +
       $br +
       "Подкидыш=" +

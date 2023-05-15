@@ -27,7 +27,7 @@ $(document).ready(function () {
   $arRoles[4] = "Детектив";
   $arRoles[5] = "Доктор";
   $arRoles[6] = "Леди ночь";
-  $arRoles[7] = "Маньяк";
+  $arRoles[7] = "Адвокат";
   $arRoles[8] = "Подкидыш";
   $arRoles[9] = "Медвежатник";
   $arRoles[10] = "Химик";
@@ -48,7 +48,7 @@ $(document).ready(function () {
   $arBtnTitles[3] = "✚"; // для лечения
   $arBtnTitles[4] = "&#128269;"; // для проверки Детективом
   $arBtnTitles[5] = "❤"; // для спасения красоткой
-  $arBtnTitles[6] = "М"; // для обработки маньяком
+  $arBtnTitles[6] = "A"; // для обработки адвокатом
   $arBtnTitles[7] = "✕"; // для убийства днём
   $arBtnTitles[8] = "*"; // для взрыва Химика
   // ➌
@@ -66,7 +66,7 @@ $(document).ready(function () {
     $arBtnTitles[5] +
     "</strong> - Леди ночь спасает<br /><strong>" +
     $arBtnTitles[6] +
-    "</strong> - Маньяк действует<br />" +
+    "</strong> - Адвокат действует<br />" +
     $arBtnTitles[7] +
     "</strong> - расстрел днём<br /><strong>" +
     $arBtnTitles[8] +
