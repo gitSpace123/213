@@ -147,6 +147,18 @@ $(document).ready(function () {
         arr = $regRole.exec($(this).parent().attr("id"));
         // Применяем роль к ячейке
         role = $(this).find("option:selected").html();
+
+        // Подменяем select на название роли и ставим обработчик
+        span = this.parentElement;
+        span.innerHTML = role;
+        console.log(role, "222");
+
+        (function (role) {
+          span.addEventListener("click", function () {
+            openPic(role);
+          });
+        })(role);
+
         $(this).parent().html(role);
 
         // Отмечаем мафию цветом
@@ -960,4 +972,31 @@ function samplesSound(type) {
   var audio = new Audio(); // Создаём новый элемент Audio
   audio.src = "music/samples/" + type + format;
   audio.autoplay = true;
+}
+
+function openPic(role) {
+  if (role == "&nbsp;") role = "Обыватель";
+
+  let close_modal = document.getElementById("close_modal");
+  let modal = document.getElementById("modal");
+  let body = document.getElementsByTagName("body")[0];
+
+  modal.classList.add("modal_vis"); // добавляем видимость окна
+  modal.classList.remove("bounceOutDown"); // удаляем эффект закрытия
+  body.classList.add("body_block"); // убираем прокрутку
+
+  console.log(role);
+  let img = document.getElementById("modal_img");
+  img.src = "pic/" + role + ".png";
+
+  close_modal.onclick = function () {
+    // клик на закрытие
+    modal.classList.add("bounceOutDown"); // добавляем эффект закрытия
+    window.setTimeout(function () {
+      // удаляем окно через полсекунды (чтобы увидеть эффект закрытия).
+      modal.classList.remove("modal_vis");
+      body.classList.remove("body_block"); // возвращаем прокрутку
+    }, 10);
+    img.src = "";
+  };
 }
