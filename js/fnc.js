@@ -679,6 +679,8 @@ function RoundEnd(State) {
             .each(function () {
               // Если кнопка отмечена, как нажатая, то обрабатываем
               if ($(this).hasClass($classBtnSelected)) {
+                console.log($(this).val());
+                console.log($arBtnTitles[9]);
                 // Накапливаем значения кнопок
                 s = s + $(this).val();
                 // Если убит, запоминаем это
@@ -697,6 +699,7 @@ function RoundEnd(State) {
           $(this).html(s);
         }
       });
+
     // Предварительная проверка - Медвежатник украл способность
     if (0 != $stole) {
       if ($stole == $idMedic) cure = 0;
@@ -707,13 +710,14 @@ function RoundEnd(State) {
         $stole == $idBoss ||
         (0 <= $idBoss && 1 == $maffCnt && $stole == $idMaff)
       )
-        $die = 0;
+        $die = $kill = 0;
       //alert('stole='+$stole+' idMaff='+$idMaff+' die='+$die);
     }
     // Первая проверка - кого-то убили и вылечили
     // Если Медвежатник украл способность бессмертного, а его убили, то он умрёт
     if ($idImmortal == $die && $stole != $idImmortal) $die = 0;
     if ($die == $cure || $die == $bcure) $die = 0;
+    if ($kill == $cure || $kill == $bcure) $kill = 0;
 
     // Проверяем, не себя ли лечил доктор, если да, то помечаем
     if ($idMedic == $cure) $SelfCure = true;
