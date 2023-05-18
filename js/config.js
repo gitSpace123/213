@@ -31,6 +31,7 @@ $(document).ready(function () {
   $arRoles[8] = "Подкидыш";
   $arRoles[9] = "Медвежатник";
   $arRoles[10] = "Химик";
+  $arRoles[11] = "Маньячелло";
 
   // Список ролей
   $select = "<select>";
@@ -51,6 +52,7 @@ $(document).ready(function () {
   $arBtnTitles[6] = "A"; // для обработки адвокатом
   $arBtnTitles[7] = "✕"; // для убийства днём
   $arBtnTitles[8] = "*"; // для взрыва Химика
+  $arBtnTitles[9] = "М"; // для убийства Маньчелло
   // ➌
   // Краткое описание ролей
   s =
@@ -71,5 +73,7 @@ $(document).ready(function () {
     "</strong> - расстрел днём<br /><strong>" +
     $arBtnTitles[8] +
     "</strong> - взрыв Химика";
+    $arBtnTitles[9] +
+    "</strong> - Убийство Маньячелло";
   $("#dInfoSigns").html(s);
 });

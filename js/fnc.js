@@ -33,16 +33,17 @@ $(document).ready(function () {
     $idMedic =
     $idBeauty =
     $idDetective =
-    $idManiac =
+    $idАdvocate =
     $idThief =
     $idBoss =
     $idMaff =
     $maffCnt =
     $idBomber =
+    $idManiac =
       0;
   $inGame = false;
   $Debug = false;
-  if ($Debug) $die = $bdie = $cure = $bcure = $stole = $boom = 0;
+  if ($Debug) $die = $bdie = $cure = $bcure = $stole = $boom = $kill = 0;
 
   // Назначаем роли
   $("#btnSpreadRoles").click(function () {
@@ -68,8 +69,11 @@ $(document).ready(function () {
       $arSpread.push($arRoles[10]);
       $arSpread.push($arRoles[2]);
     }
-    // Добавляем ещё одну Мафию
-    if (15 <= $gamers) $arSpread.push($arRoles[2]);
+    // Добавляем ещё одну Мафию и Маньячелло
+    if (15 <= $gamers) {
+      $arSpread.push($arRoles[2]);
+      $arSpread.push($arRoles[11]);
+    }
     // Добавляем ещё одну Мафию
     if (18 <= $gamers) $arSpread.push($arRoles[2]);
 
@@ -114,12 +118,13 @@ $(document).ready(function () {
       $idMedic =
       $idBeauty =
       $idDetective =
-      $idManiac =
+      $idАdvocate =
       $idThief =
       $idBoss =
       $idMaff =
       $maffCnt =
       $idBomber =
+      $idManiac =
         0;
     // Отключаем добавление игроков
     $("#btnGamerAdd").attr("disabled", "disabled");
@@ -175,13 +180,15 @@ $(document).ready(function () {
         // Запоминаем роль красотки
         if ($arRoles[6] == role) $idBeauty = arr[1];
         // Запоминаем роль Адвоката
-        if ($arRoles[7] == role) $idManiac = arr[1];
+        if ($arRoles[7] == role) $idАdvocate = arr[1];
         // Запоминаем роль бессмертного
         if ($arRoles[8] == role) $idImmortal = arr[1];
         // Запоминаем роль Медвежатника
         if ($arRoles[9] == role) $idThief = arr[1];
         // Запоминаем роль террориста
         if ($arRoles[10] == role) $idBomber = arr[1];
+        // Запоминаем роль маньяка
+        if ($arRoles[11] == role) $idManiac = arr[1];
       });
     // Подсчитываем остатки мафии (для Медвежатника)
     countMaff();
@@ -419,9 +426,9 @@ function RoundAdd(State) {
                 ee +
                 '<input type="button" id="g' +
                 $i +
-                'b6" onclick="Action(' +
+                'b7" onclick="Action(' +
                 $i +
-                ',6);" value="' +
+                ',7);" value="' +
                 $arBtnTitles[2] +
                 '" />';
             else
@@ -520,12 +527,12 @@ function RoundAdd(State) {
                 '"/>';
           }
           // Если у нас есть в игре Адвокат, то делаем кнопку с его действием
-          if (0 != $idManiac) {
+          if (0 != $idАdvocate) {
             // Если сам не Адвокат и не умер и Адвокат ещё живой...
             if (
               $arRoles[7] != $("#sRole" + $i).html() &&
               !$("#sRole" + $i).hasClass($classDie) &&
-              $idManiac > 0
+              $idАdvocate > 0
             )
               ee =
                 ee +
@@ -541,6 +548,30 @@ function RoundAdd(State) {
                 ee +
                 '<input type="button" disabled value="' +
                 $arBtnTitles[6] +
+                '"/>';
+          }
+          // Если у нас есть в игре Маньяк, то делаем кнопку с его действием
+          if (0 != $idManiac) {
+            // Если сам не Маньяк и не умер и Маньяк ещё живой...
+            if (
+              $arRoles[11] != $("#sRole" + $i).html() &&
+              !$("#sRole" + $i).hasClass($classDie) &&
+              $idManiac > 0
+            )
+              ee =
+                ee +
+                '<input type="button" id="g' +
+                $i +
+                'b6" onclick="Action(' +
+                $i +
+                ',6);" value="' +
+                $arBtnTitles[9] +
+                '" />';
+            else
+              ee =
+                ee +
+                '<input type="button" disabled value="' +
+                $arBtnTitles[9] +
                 '"/>';
           }
           ee = ee + "</span>";
@@ -632,7 +663,7 @@ function RoundAdd(State) {
 function RoundEnd(State) {
   if (1 == State) {
     // Резюмируем ночные действия
-    $die = $bdie = $cure = $bcure = $stole = 0;
+    $die = $bdie = $cure = $bcure = $stole = $kill = 0;
     // Проверяем все спаны в этом столбике
     $("#dRound" + $round + "st" + State)
       .find("span")
@@ -658,6 +689,8 @@ function RoundEnd(State) {
                 if ($arBtnTitles[5] == $(this).val()) $bcure = arr[1];
                 // Если Медвежатник украл у игрока функцию, запоминаем это
                 if ($arBtnTitles[2] == $(this).val()) $stole = arr[1];
+                // Если убит маньяком, запоминаем это
+                if ($arBtnTitles[9] == $(this).val()) $kill = arr[1];
               }
             });
           //alert('die='+$die+' bdie='+$bdie+' cure='+$cure+' bcure='+$bcure+"\n"+$('#sRole'+$die).html()+' '+$('#sRole'+$bdie).html()+' '+$('#sRole'+$cure).html()+' '+$('#sRole'+$bcure).html()+' ');
@@ -696,7 +729,8 @@ function RoundEnd(State) {
       // Проверяем, был ли кто из погибших доктором, и запоминаем, если да
       if ($idMedic == $die || $idMedic == $bdie) $idMedic = -$idMedic;
       // Проверяем, был ли кто из погибших Адвокатом, и запоминаем, если да
-      if ($idManiac == $die || $idManiac == $bdie) $idManiac = -$idManiac;
+      if ($idАdvocate == $die || $idАdvocate == $bdie)
+        $idАdvocate = -$idАdvocate;
       // Проверяем, был ли кто из погибших детективом, и запоминаем, если да
       if ($idDetective == $die || $idDetective == $bdie)
         $idDetective = -$idDetective;
@@ -704,6 +738,32 @@ function RoundEnd(State) {
       if ($idBomber == $die || $idBomber == $bdie) $idBomber = -$idBomber;
       // Проверяем, был ли кто из погибших боссом, и запоминаем, если да
       if ($idBoss == $die || $idBoss == $bdie) $idBoss = -$idBoss;
+      // Проверяем, был ли кто из погибших маньяком, и запоминаем, если да
+      if ($idManiac == $die || $idManiac == $bdie) $idManiac = -$idManiac;
+    }
+
+    // Третья проверка - если всё-таки не вылечили
+    if (0 != $kill) {
+      // Если убили красотку, то умирают двое
+      if ($idBeauty == $kill) {
+        // Погибает тот, кого она спасала, если его не лечили
+        if ($cure != $bcure) $bdie = $bcure;
+        $idBeauty = -$idBeauty; // Запоминаем, что красотки больше нет
+      }
+      // Проверяем, был ли кто из погибших доктором, и запоминаем, если да
+      if ($idMedic == $kill || $idMedic == $bdie) $idMedic = -$idMedic;
+      // Проверяем, был ли кто из погибших Адвокатом, и запоминаем, если да
+      if ($idАdvocate == $kill || $idАdvocate == $bdie)
+        $idАdvocate = -$idАdvocate;
+      // Проверяем, был ли кто из погибших детективом, и запоминаем, если да
+      if ($idDetective == $kill || $idDetective == $bdie)
+        $idDetective = -$idDetective;
+      // Проверяем, был ли кто из погибших террористом, и запоминаем, если да
+      if ($idBomber == $kill || $idBomber == $bdie) $idBomber = -$idBomber;
+      // Проверяем, был ли кто из погибших боссом, и запоминаем, если да
+      if ($idBoss == $kill || $idBoss == $bdie) $idBoss = -$idBoss;
+      // Проверяем, был ли кто из погибших маньяком, и запоминаем, если да
+      if ($idManiac == $kill || $idManiac == $bdie) $idManiac = -$idManiac;
     }
     //alert('die='+$die+' bdie='+$bdie+' cure='+$cure+' bcure='+$bcure+"\n"+$('#sRole'+$die).html()+' '+$('#sRole'+$bdie).html()+' '+$('#sRole'+$cure).html()+' '+$('#sRole'+$bcure).html()+' ');
 
@@ -717,6 +777,17 @@ function RoundEnd(State) {
         $("#actg" + $die + "st" + (3 - State) + "r" + $i).addClass($classDie);
       }
     }
+
+    if (0 != $kill) {
+      $("#sNum" + $kill).addClass($classDie);
+      $("#sName" + $kill).addClass($classDie);
+      $("#sRole" + $kill).addClass($classDie);
+      for ($i = 1; $i <= $round; $i++) {
+        $("#actg" + $kill + "st" + State + "r" + $i).addClass($classDie);
+        $("#actg" + $kill + "st" + (3 - State) + "r" + $i).addClass($classDie);
+      }
+    }
+
     if (0 != $bdie) {
       $("#sNum" + $bdie).addClass($classDie);
       $("#sName" + $bdie).addClass($classDie);
@@ -728,7 +799,7 @@ function RoundEnd(State) {
     }
   } else {
     // Резюмируем дневные действия
-    $die = $boom = 0;
+    $die = $boom = $kill = 0;
     // Проверяем все спаны в этом столбике
     $("#dRound" + $round + "st" + State)
       .find("span")
@@ -765,13 +836,14 @@ function RoundEnd(State) {
       // Рисуем Химику значок, что он самовзорвался
       $("#actg" + $boom + "st" + State + "r" + $round).html($arBtnTitles[8]);
     }
-    if (0 != $die || 0 != $boom) {
+    if (0 != $die || 0 != $boom || 0 != $kill) {
       // Проверяем, был ли погибший красоткой, и запоминаем, если да
       if ($idBeauty == $die || $idBeauty == $boom) $idBeauty = -$idBeauty;
       // Проверяем, был ли погибший доктором, и запоминаем, если да
       if ($idMedic == $die || $idMedic == $boom) $idMedic = -$idMedic;
       // Проверяем, был ли погибший Адвокатом, и запоминаем, если да
-      if ($idManiac == $die || $idManiac == $boom) $idManiac = -$idManiac;
+      if ($idАdvocate == $die || $idАdvocate == $boom)
+        $idАdvocate = -$idАdvocate;
       // Проверяем, был ли погибший детективом, и запоминаем, если да
       if ($idDetective == $die || $idDetective == $boom)
         $idDetective = -$idDetective;
@@ -779,6 +851,8 @@ function RoundEnd(State) {
       if ($idBomber == $die || $idBomber == $boom) $idBomber = -$idBomber;
       // Проверяем, был ли погибший боссом, и запоминаем, если да
       if ($idBoss == $die || $idBoss == $boom) $idBoss = -$idBoss;
+      // Проверяем, был ли погибший маньяком, и запоминаем, если да
+      if ($idManiac == $die || $idManiac == $boom) $idManiac = -$idManiac;
     }
     // Отмечаем выбывших
     if (0 != $die) {
@@ -896,7 +970,7 @@ function showDebugInfo() {
       $idDetective +
       $br +
       "Адвокат=" +
-      $idManiac +
+      $idАdvocate +
       $br +
       "Подкидыш=" +
       $idImmortal +
@@ -963,7 +1037,7 @@ function resetSound() {
 }
 
 function samplesSound(type) {
-  if (type < 3) {
+  if (type < 4) {
     format = ".mp3";
   } else {
     format = ".ogg";
