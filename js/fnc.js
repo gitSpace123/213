@@ -246,7 +246,11 @@ $(document).ready(function () {
   });
 
   // Добавляем игрока
+  $stop = false;
   $("#btnGamerAdd").click(function () {
+    soundClick("day", 0, $stop);
+    $stop = true;
+
     $rows++;
     $gamers++;
     $btnDel =
@@ -1021,7 +1025,8 @@ function showDebugInfo() {
   );
 }
 
-function soundClick(type, num) {
+function soundClick(type, num, stop = false) {
+  if (stop) return;
   let audio = document.getElementById("audio");
   audio.src = "music/" + type + "/" + num + ".mp3";
   audio.autoplay = true;
