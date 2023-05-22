@@ -1030,6 +1030,7 @@ function soundClick(type, num, stop = false) {
   let audio = document.getElementById("audio");
   audio.src = "music/" + type + "/" + num + ".mp3";
   audio.autoplay = true;
+  audio.loop = true;
 
   if (type == "day") {
     audio.volume = 0.2;

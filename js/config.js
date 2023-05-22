@@ -47,7 +47,7 @@ $(document).ready(function () {
   $arBtnTitles[1] = "X"; // для убийства
   $arBtnTitles[2] = "В"; // для Медвежатника
   $arBtnTitles[3] = "✚"; // для лечения
-  $arBtnTitles[4] = "&#128269;"; // для проверки Детективом
+  $arBtnTitles[4] = "Ш"; // для проверки Детективом
   $arBtnTitles[5] = "❤"; // для спасения красоткой
   $arBtnTitles[6] = "A"; // для обработки адвокатом
   $arBtnTitles[7] = "✕"; // для убийства днём
@@ -73,7 +73,6 @@ $(document).ready(function () {
     "</strong> - расстрел днём<br /><strong>" +
     $arBtnTitles[8] +
     "</strong> - взрыв Химика";
-    $arBtnTitles[9] +
-    "</strong> - Убийство Маньячелло";
+  $arBtnTitles[9] + "</strong> - Убийство Маньячелло";
   $("#dInfoSigns").html(s);
 });
